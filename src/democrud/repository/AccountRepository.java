@@ -20,15 +20,15 @@ public class AccountRepository {
 
     public ArrayList<Account> getListFromDb() {
         ArrayList<Account> listAccount = new ArrayList<>();
-        String sql = " Select account.id, account.tai_khoan, account.mat_khau "
-                + " From account";
+        String sql = " Select account.id, account.tai_khoan, account.mat_khau\n"
+                + " From account ";
         try (Connection con = connection.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Account account = new Account();
-                account.setId(rs.getInt(1));
+                account.setId(rs.getInt("id"));
                 account.setTaiKhoan(rs.getString(2));
                 account.setMatKhau(rs.getString(3));
                 listAccount.add(account);
