@@ -22,4 +22,20 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.getListFromDb();
     }
 
+    @Override
+    public Boolean addNew(Account account) {
+        return accountRepository.addNew(account);
+    }
+
+    @Override
+    public Boolean update(int id, Account account) {
+        return accountRepository.update(id, account);
+    }
+
+    @Override
+    public Boolean delete(int id) {
+
+        return accountRepository.xoa(id);
+    }
+
 }

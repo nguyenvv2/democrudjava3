@@ -4,6 +4,13 @@
  */
 package democrud.view;
 
+import democrud.model.Account;
+import democrud.sevice.AccountService;
+import democrud.sevice.impl.AccountServiceImpl;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author nguyenvv
@@ -13,8 +20,22 @@ public class AccountView extends javax.swing.JFrame {
     /**
      * Creates new form AccountView
      */
+    private AccountService accountService = new AccountServiceImpl();
+
+    private DefaultTableModel defaultTableModel;
+
     public AccountView() {
         initComponents();
+    }
+
+    public void loadData(ArrayList<Account> list) {
+        defaultTableModel = (DefaultTableModel) tbAccount.getModel();
+        defaultTableModel.setRowCount(0);
+        for (Account account : list) {
+            defaultTableModel.addRow(new Object[]{
+                account.getId(), account.getTaiKhoan(), account.getMatKhau()
+            });
+        }
     }
 
     /**
@@ -58,15 +79,40 @@ public class AccountView extends javax.swing.JFrame {
                 "id", "Tai Khoan", "Mat Khau"
             }
         ));
+        tbAccount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbAccountMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbAccount);
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnLoad.setText("Load Data");
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xoá");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,6 +124,9 @@ public class AccountView extends javax.swing.JFrame {
                 .addContainerGap(64, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,17 +139,11 @@ public class AccountView extends javax.swing.JFrame {
                             .addComponent(txtTaiKhoan)
                             .addComponent(txtMatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
                         .addGap(87, 87, 87)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(9, 9, 9))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnXoa)
-                            .addComponent(btnLoad))))
-                .addGap(13, 13, 13))
+                            .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))))
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,6 +173,71 @@ public class AccountView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+        // TODO add your handling code here:
+        ArrayList<Account> list = accountService.getList();
+        loadData(list);
+    }//GEN-LAST:event_btnLoadActionPerformed
+
+    private void tbAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAccountMouseClicked
+        // TODO add your handling code here:
+        int row = tbAccount.getSelectedRow();
+        txtId.setText(tbAccount.getValueAt(row, 0).toString());
+        txtTaiKhoan.setText(tbAccount.getValueAt(row, 1).toString());
+        txtMatKhau.setText(tbAccount.getValueAt(row, 2).toString());
+
+        Account account = new Account();
+        account.setId(Integer.parseInt(txtId.getText().toString()));
+        account.setTaiKhoan(txtTaiKhoan.getText().toString());
+        account.setMatKhau(txtMatKhau.getText().toString());
+//
+//        Detail detail = new Detail(this, account);
+//        detail.setVisible(true);
+//        this.dispose();
+
+    }//GEN-LAST:event_tbAccountMouseClicked
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        Account account = new Account();
+        account.setTaiKhoan(txtTaiKhoan.getText().toString());
+        account.setMatKhau(txtMatKhau.getText().toString());
+        if (accountService.addNew(account)) {
+            JOptionPane.showMessageDialog(this, "Them thanh cong");
+            loadData(accountService.getList());
+        } else {
+            JOptionPane.showMessageDialog(this, "Them that bai");
+        }
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        Account account = new Account();
+
+        account.setTaiKhoan(txtTaiKhoan.getText());
+        account.setMatKhau(txtMatKhau.getText());
+
+        int id = Integer.parseInt(txtId.getText().toString());
+
+        if (accountService.update(id, account)) {
+            JOptionPane.showMessageDialog(this, "Cap nhat thanh cong");
+            loadData(accountService.getList());
+        } else {
+            JOptionPane.showMessageDialog(this, "Cap nhat that bai");
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        int id = Integer.parseInt(txtId.getText().toString());
+        if (accountService.delete(id)) {
+            JOptionPane.showMessageDialog(this, "xoa thanh cong");
+        } else {
+            JOptionPane.showMessageDialog(this, "xoa that bai");
+
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     /**
      * @param args the command line arguments
