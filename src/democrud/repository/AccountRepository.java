@@ -82,22 +82,6 @@ public class AccountRepository {
 
     }
 
-    public Account getById(int id) {
-        Account account = new Account();
-        String sql = " Select account.id, account.tai_khoan, account.mat_khau "
-                + " From account where id = ?";
-        try (Connection con = connection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setObject(1, id);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                account.setTaiKhoan(rs.getString(2));
-                account.setMatKhau(rs.getString(3));
-            }
-        } catch (Exception e) {
-        }
-
-        return account;
-    }
+    
 
 }
