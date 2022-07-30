@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/nguyenvv/Desktop/Source_Java_3/DemoCRUD/src/democrud/sevice/impl/AccountServiceImpl.java</file>
-            <file>file:/Users/nguyenvv/Desktop/Source_Java_3/DemoCRUD/src/democrud/view/AccountView.java</file>
-            <file>file:/Users/nguyenvv/Desktop/Source_Java_3/DemoCRUD/src/democrud/repository/AccountRepository.java</file>
-            <file>file:/Users/nguyenvv/Desktop/Source_Java_3/DemoCRUD/src/democrud/sevice/AccountService.java</file>
-            <file>file:/Users/nguyenvv/Desktop/Source_Java_3/DemoCRUD/src/democrud/view/Detail.java</file>
+            <file>file:/Users/nguyenvv/Desktop/Source_Java_3/DemoCRUD/src/democrud/join/repository/SinhVienRepository.java</file>
+            <file>file:/Users/nguyenvv/Desktop/Source_Java_3/DemoCRUD/src/democrud/join/model/SinhVien.java</file>
         </group>
     </open-files>
 </project-private>

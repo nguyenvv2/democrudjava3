@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package democrud.view;
+package democrud.onetable.view;
 
-import democrud.model.Account;
-import democrud.sevice.AccountService;
-import democrud.sevice.impl.AccountServiceImpl;
+import democrud.onetable.model.Account;
+import democrud.onetable.sevice.AccountService;
+import democrud.onetable.sevice.impl.AccountServiceImpl;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

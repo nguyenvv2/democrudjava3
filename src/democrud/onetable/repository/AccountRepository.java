@@ -2,14 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package democrud.repository;
+package democrud.onetable.repository;
 
-import democrud.model.Account;
+import democrud.onetable.model.Account;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Objects;
 
 /**
  *
@@ -41,7 +40,7 @@ public class AccountRepository {
     }
 
     public Boolean addNew(Account account) {
-        String query = "insert into account(tai_khoan, mat_khau) VALUES (?,?) ";
+        String query = "insert into account(tai_khoan, mat_khau) VALUES (?, ?) ";
         try (Connection con = connection.getConnection();
                 PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, account.getTaiKhoan());
@@ -68,12 +67,10 @@ public class AccountRepository {
     }
 
     public Boolean xoa(int id) {
-
         String query = "delete account where id =?";
         try (Connection con = connection.getConnection();
                 PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, id);
-
             ps.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -82,6 +79,47 @@ public class AccountRepository {
 
     }
 
-    
+    public Account getById(int id) {
+        String sql = " Select account.id, account.tai_khoan, account.mat_khau "
+                + " From account where id = ?";
+
+        try (Connection con = connection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Account account = new Account();
+                account.setId(rs.getInt("id"));
+                account.setTaiKhoan(rs.getString(2));
+                account.setMatKhau(rs.getString(3));
+                return account;
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        return null;
+    }
+
+    public ArrayList<Account> timKiemTheoTaiKhoan(String taiKhoan) {
+        String sql = " Select account.id, account.tai_khoan, account.mat_khau "
+                + " From account where tai_khoan LIKE '%" + taiKhoan + "%'";
+        ArrayList<Account> listAccount = new ArrayList<>();
+        try (Connection con = connection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Account account = new Account();
+                account.setId(rs.getInt("id"));
+                account.setTaiKhoan(rs.getString(2));
+                account.setMatKhau(rs.getString(3));
+                listAccount.add(account);
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return listAccount;
+    }
 
 }
